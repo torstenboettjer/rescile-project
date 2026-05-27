@@ -1,6 +1,6 @@
 # Rescile Project
 
-This repository provides a blueprint for domain-driven, multi-tier infrastructure provisioning processes using Rescile's UCS. This is useful for hybrid cloud services with infrastructure growing beyond a few VPCs and including compute (EC2, EKS) and storage (S3, EFS) resources. The blueprint structures projects into common domain groups, like network, compute and storage, and decouples the state engine from the deployment code to collect the state from a cloud controller rather thean relying on a build-in state that usually causes drift. Python is used as a generic runtime to rely on provider SDK or the pulumi operator.
+This repository provides a blueprint for domain-driven, multi-tier infrastructure provisioning processes using Rescile's UCS. This is useful for hybrid cloud services with infrastructure growing beyond the scope of a single provider. The blueprint structures projects into common domain groups, like internet perimeter, cloud platform, cross-connect and private infrastructure. Domain groups decouple the state engine from the deployment code, collect the state from a cloud controller and integrate state signals from multiple providers. Python is used as a generic runtime to rely on provider SDK or the pulumi operator.
 
 ## Directory Structure
 
