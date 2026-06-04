@@ -10,15 +10,12 @@ from pulumi import automation as auto
 import pulumi_aws as aws
 
 def pulumi_program():
-    server_names = ['web-prod', 'web-stage']
-    for name in server_names:
-        server = aws.ec2.Instance(
-            name,
-            instance_type='t3.micro',
-            ami='ami-0c55b159cbfafe1f0',
-            tags={'Name': name}
-        )
-    pulumi.export('last_server_id', server.id)
+    bucket_names = ['web-prod', 'web-stage']
+    buckets = [
+        aws.s3.Bucket(name, tags={'Name': name})
+        for name in bucket_names
+    ]
+    pulumi.export('last_bucket_name', buckets[-1].bucket)
 
 project_name = 'inline_aws'
 stack_name = 'dev'
@@ -31,7 +28,7 @@ stack = auto.create_or_select_stack(
 )
 
 print('Setting AWS region...')
-stack.set_config('aws:region', auto.config.Value(value='eu-central-1'))
+stack.set_config('aws:region', auto.ConfigValue(value='eu-central-2'))
 
 print('Running pulumi up...')
 up_res = stack.up(on_output=print)

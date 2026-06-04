@@ -21,31 +21,27 @@
             ps.botocore
             ps.pulumi
             ps.pulumi-aws
+            ps.gql       # <-- Dynamic GraphRAG client library added
+            ps.requests  # <-- HTTP Transport layer dependency added
           ]))
         ];
 
         shellHook = ''
-          echo "☁️ Python SDK & Pulumi Execution Layer Loaded"
-          echo "Python version: $(python --version)"
+            echo "☁️ Python SDK & Pulumi Execution Layer Loaded"
+            echo "Python version: $(python --version)"
 
-          export AWS_DEFAULT_REGION="eu-central-2"
+            export AWS_DEFAULT_REGION="eu-central-2"
 
-          # 1. Automate local state login
-          # Overrides global state context to isolate state to the local environment
-          export PULUMI_BACKEND_URL="file://~"
-          pulumi login --local > /dev/null 2>&1
+            # 1. Automate local state login
+            export PULUMI_BACKEND_URL="file://~"
+            pulumi login --local > /dev/null 2>&1
 
-          # 2. Automate the encryption passphrase for non-interactive automation
-          # Sets a local test passphrase if one isn't already declared in your environment
-          if [ -z "$PULUMI_CONFIG_PASSPHRASE" ]; then
+            # 2. Automate the encryption passphrase
+            if [ -z "$PULUMI_CONFIG_PASSPHRASE" ]; then
             export PULUMI_CONFIG_PASSPHRASE="local-dev-rescile-secret-key"
-          fi
+            fi
 
-          # 3. Virtual Environment Setup
-          if [ ! -d ".venv" ]; then
-            python -m venv --system-site-packages .venv
-          fi
-          source .venv/bin/activate
+            # (.venv setup removed - Nix handles the environment cleanly now)
         '';
       };
     };
