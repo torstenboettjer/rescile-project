@@ -1,21 +1,23 @@
+import os
+import sys
 from simple_salesforce import Salesforce
 
-# Session management and authentication are handled natively
+# --- Fetch Credentials safely from the Environment ---
+INSTANCE_URL = os.environ.get("SF_INSTANCE_URL")
+ACCESS_TOKEN = os.environ.get("SF_ACCESS_TOKEN")
+
+# Fallback block to explicitly fail fast if the shell isn't configured
+if not INSTANCE_URL or not ACCESS_TOKEN:
+    print(
+        "❌ Error: Environment variables 'SF_INSTANCE_URL' and 'SF_ACCESS_TOKEN' must be set.",
+        file=sys.stderr,
+    )
+    sys.exit(1)
+
+# --- Initialize the client safely ---
 sf = Salesforce(
-    instance_url="https://yourdomain.develop.my.salesforce.com",
-    session_id="YOUR_SF_ACCESS_TOKEN_HERE",
+    instance_url=INSTANCE_URL,
+    session_id=ACCESS_TOKEN,
 )
 
-# 1. Create Inbound Connection via Tooling API
-payload = {
-    "MasterLabel": "AWS-Zurich-Inbound",
-    "DeveloperName": "AWS_Zurich_Inbound",
-    "AwsRegion": "eu-central-2",
-}
-
-# simple-salesforce handles the base URLs, headers, and json encoding/decoding
-result = sf.toolingexecute("sobjects/OauthCustomGateway", method="POST", data=payload)
-print(f"Created Connection ID: {result['id']}")
-
-# 2. Delete the Connection later
-# sf.toolingexecute(f"sobjects/OauthCustomGateway/{result['id']}", method="DELETE")
+print(f"✅ Securely authenticated to Salesforce instance: {INSTANCE_URL}")
