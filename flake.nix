@@ -3,18 +3,22 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    sfdx-nix.url = "github:rfaulhaber/sfdx-nix";
   };
 
-  outputs = { self, nixpkgs }:
+  # FIXED: Added sfdx-nix to the outputs function arguments list here
+  outputs = { self, nixpkgs, sfdx-nix }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      sf-cli = sfdx-nix.packages.${system}.default;
     in
     {
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = [
           pkgs.awscli2
           pkgs.pulumi
+          sf-cli
 
           (pkgs.python3.withPackages (ps: [
             ps.boto3
@@ -28,7 +32,7 @@
         ];
 
         shellHook = ''
-          echo "☁️ Python SDK & Pulumi Execution Layer Loaded"
+          echo "☁️ Python SDK, Pulumi & Salesforce CLI Layer Loaded"
           echo "Python version: $(python --version)"
 
           export AWS_DEFAULT_REGION="eu-central-2"
