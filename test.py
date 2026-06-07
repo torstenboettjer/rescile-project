@@ -5,7 +5,7 @@ import json
 import subprocess
 import sys
 
-from simple_salesforce import Salesforce
+from simple_salesforce.api import Salesforce
 
 TARGET_ALIAS = "dev-org~"
 
@@ -48,5 +48,5 @@ sf = Salesforce(
 
 # Verify control plane access via live API call
 limits = sf.restful("limits", method="GET")
-print(f"Success! Connected to Salesforce API.")
+print("Success! Connected to Salesforce API.")
 print(f"Budget Remaining: {limits['DailyApiRequests']['Remaining']} calls left today.")

@@ -1,7 +1,7 @@
 import os
 import sys
 
-from simple_salesforce import Salesforce
+from simple_salesforce.api import Salesforce
 
 INSTANCE_URL = os.environ.get("SF_INSTANCE_URL")
 ACCESS_TOKEN = os.environ.get("SF_ACCESS_TOKEN")

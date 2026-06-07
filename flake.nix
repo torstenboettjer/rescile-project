@@ -7,7 +7,7 @@
   };
 
   # FIXED: Added sfdx-nix to the outputs function arguments list here
-  outputs = { self, nixpkgs, sfdx-nix }:
+  outputs = { nixpkgs, sfdx-nix }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
