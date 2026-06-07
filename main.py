@@ -44,12 +44,12 @@ try:
 
     # --- Output Orchestration Results ---
     print("Private Connect object successfully staged in Salesforce!")
-    print(f"   Connection Record ID: {result.get('id')}")
-    print(f"   Success Status: {result.get('success')}")
+    print(f"--> Connection Record ID: {result.get('id')}")
+    print(f"--> Success Status: {result.get('success')}")
     print(
         "\n Next Step: Log into Setup -> Private Connect to authorize the sync handshake or use the record ID to monitor readiness state via script."
     )
 
 except Exception as e:
-    print(f"❌ Operation failed: {e}", file=sys.stderr)
+    print(f"Operation failed: {e}", file=sys.stderr)
     sys.exit(1)
